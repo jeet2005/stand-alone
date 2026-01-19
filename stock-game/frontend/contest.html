@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Select your dream stock team and compete in fantasy contests">
+    <title>Build Your Team | StockFantasy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">SF</div>
+                <span class="logo-text">StockFantasy</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="contest.html" class="nav-link active">Play</a>
+            </div>
+
+            <div class="user-stats">
+                <div class="stat-badge">
+                    <span class="stat-badge-icon">💰</span>
+                    <span class="stat-badge-value" id="userBalance">₹10,00,000</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page" style="padding-top: 6rem; padding-bottom: 200px;">
+        <div class="container">
+            <!-- Contest Header -->
+            <div id="contestHeader" style="text-align: center; margin-bottom: 2rem;">
+                <span class="contest-type">📅 Daily Challenge</span>
+                <h1 class="section-title">Build Your Dream Team</h1>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                    Select 5-10 stocks to create your fantasy portfolio
+                </p>
+                <div class="contest-timer" style="display: inline-flex;">
+                    <span>⏰</span>
+                    <span class="timer-value">Contest ends today</span>
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="disclaimer-banner">
+                <span class="disclaimer-icon">⚠️</span>
+                <div class="disclaimer-text">
+                    <strong>Virtual Game:</strong> No real money involved. Your stock picks earn points based on real
+                    market performance.
+                </div>
+            </div>
+
+            <!-- Team Builder Layout -->
+            <div class="team-builder">
+                <!-- Stock Selection Area -->
+                <div>
+                    <!-- Category Tabs -->
+                    <div class="tabs">
+                        <button class="tab active" data-tab="trending" onclick="switchTab('trending')">🔥
+                            Trending</button>
+                        <button class="tab" data-tab="shockers" onclick="switchTab('shockers')">⚡ Price
+                            Shockers</button>
+                        <button class="tab" data-tab="active" onclick="switchTab('active')">📊 Most Active</button>
+                    </div>
+
+                    <!-- Search -->
+                    <div class="search-box" style="margin-bottom: 1.5rem;">
+                        <span class="search-box-icon">🔍</span>
+                        <input type="text" class="form-input" id="searchInput"
+                            placeholder="Search stocks (e.g., TCS, Reliance)" style="padding-left: 3rem;">
+                    </div>
+
+                    <!-- Scoring Rules Info -->
+                    <div class="card" style="margin-bottom: 1.5rem; padding: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                            <span style="font-size: 1.25rem;">📋</span>
+                            <strong>Scoring Rules</strong>
+                        </div>
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; font-size: 0.875rem; color: var(--text-secondary);">
+                            <div>📈 Price Change × 10 pts</div>
+                            <div>📊 Volume Bonus: +10 pts</div>
+                            <div>🏭 Sector Bonus: +5 pts</div>
+                            <div>👑 Captain: 2× points</div>
+                            <div>⭐ Vice Captain: 1.5× pts</div>
+                            <div>📉 Loss Penalty: -5 pts</div>
+                        </div>
+                    </div>
+
+                    <!-- Stock Grid -->
+                    <div id="trendingGrid" class="stock-grid tab-content active">
+                        <div class="loading-container">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+
+                    <div id="shockersGrid" class="stock-grid tab-content" style="display: none;">
+                        <div class="loading-container">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+
+                    <div id="activeGrid" class="stock-grid tab-content" style="display: none;">
+                        <div class="loading-container">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Preview Sidebar -->
+                <div id="teamPreview">
+                    <div class="card">
+                        <div class="team-preview-header">
+                            <h3>Your Team</h3>
+                            <span class="team-count"><span>0</span>/10 stocks</span>
+                        </div>
+
+                        <div class="budget-bar">
+                            <div class="budget-progress">
+                                <div class="budget-fill" style="width: 0%"></div>
+                            </div>
+                            <div class="budget-text">
+                                <span>Used: ₹0</span>
+                                <span class="budget-remaining">Left: ₹10,00,000</span>
+                            </div>
+                        </div>
+
+                        <div class="team-list">
+                            <div class="empty-state" style="padding: 2rem;">
+                                <div class="empty-state-icon">👆</div>
+                                <div class="empty-state-title">Select Stocks</div>
+                                <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                                    Click on stocks to add them to your team
+                                </p>
+                            </div>
+                        </div>
+
+                        <p
+                            style="text-align: center; color: var(--text-secondary); margin-top: 1rem; font-size: 0.875rem;">
+                            Select at least 5 stocks to continue
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Stock Detail Modal -->
+    <div class="modal-overlay" id="stockModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalStockName">Stock Details</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalContent"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                <button class="btn btn-primary" id="addToTeamBtn">Add to Team</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Override tab switching for this page
+        function switchTab(tabId) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.tab === tabId);
+            });
+
+            // Hide all grids
+            document.querySelectorAll('.stock-grid').forEach(grid => {
+                grid.style.display = 'none';
+            });
+
+            // Show selected grid
+            const gridMap = {
+                'trending': 'trendingGrid',
+                'shockers': 'shockersGrid',
+                'active': 'activeGrid'
+            };
+
+            const gridId = gridMap[tabId];
+            const grid = document.getElementById(gridId);
+            if (grid) {
+                grid.style.display = 'grid';
+
+                // Load data if needed
+                if (tabId === 'trending') loadTrending();
+                else if (tabId === 'shockers') loadPriceShockers();
+                else if (tabId === 'active') loadMostActive('nse');
+            }
+        }
+    </script>
+</body>
+
+</html>

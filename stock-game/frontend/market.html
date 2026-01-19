@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Overview | StockQuest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/theme.js"></script>
+    <style>
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-card);
+            padding: 6px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .tab.active {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .section-content {
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .data-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            transition: all 0.2s;
+        }
+
+        .data-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .data-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .data-card-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .data-card-subtitle {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .data-card-price {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .data-card-change {
+            font-size: 0.85rem;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+        }
+
+        .data-card-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+
+        .data-card-label {
+            color: var(--text-muted);
+        }
+
+        .data-card-value {
+            font-weight: 500;
+            font-family: var(--font-mono);
+        }
+
+        /* IPO Styles */
+        .ipo-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 208, 156, 0.05) 100%);
+        }
+
+        .ipo-status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .ipo-status.open {
+            background: rgba(0, 208, 156, 0.2);
+            color: var(--success);
+        }
+
+        .ipo-status.upcoming {
+            background: rgba(247, 185, 36, 0.2);
+            color: var(--warning);
+        }
+
+        .ipo-status.closed {
+            background: rgba(107, 107, 107, 0.2);
+            color: var(--text-muted);
+        }
+
+        /* News Styles */
+        .news-card {
+            display: flex;
+            gap: 16px;
+        }
+
+        .news-image {
+            width: 120px;
+            height: 80px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            background: var(--bg-secondary);
+        }
+
+        .news-content {
+            flex: 1;
+        }
+
+        .news-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .news-meta {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Commodity Styles */
+        .commodity-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: var(--bg-secondary);
+        }
+
+        /* Loading */
+        .section-loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .section-loading .spinner {
+            margin: 0 auto 16px;
+        }
+
+        /* Empty State */
+        .section-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-wrap: nowrap;
+            }
+
+            .tab {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+
+            .news-card {
+                flex-direction: column;
+            }
+
+            .news-image {
+                width: 100%;
+                height: 160px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3v18h18" />
+                        <path d="M18 9l-5 5-4-4-3 3" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="logo-text">StockQuest</span>
+                    <span class="logo-subtitle">Fantasy Stock Market</span>
+                </div>
+            </div>
+
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3v18h18" />
+                        <path d="M18 9l-5 5-4-4-3 3" />
+                    </svg>
+                    Stocks
+                </a>
+                <a href="market.html" class="nav-link active">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l4 2" />
+                    </svg>
+                    Market
+                </a>
+                <a href="portfolio.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                        <path d="M8 21h8" />
+                        <path d="M12 17v4" />
+                    </svg>
+                    Portfolio
+                </a>
+                <a href="leaderboard.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                        <path d="M4 22h16" />
+                        <path d="M10 22V8a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v14" />
+                    </svg>
+                    Leaderboard
+                </a>
+            </div>
+
+            <div class="user-stats">
+                <button class="btn-icon" id="navThemeToggle" title="Toggle Theme"
+                    style="margin-right: 12px; border: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <div class="balance-display">
+                    <span class="balance-label">Balance</span>
+                    <span class="balance-value" id="userBalance">--</span>
+                </div>
+                <div class="user-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Market Overview</h1>
+                <p class="page-subtitle">Live market data, IPOs, news, commodities, and more</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" data-section="ipo" onclick="showSection('ipo')">IPO</button>
+                <button class="tab" data-section="news" onclick="showSection('news')">News</button>
+                <button class="tab" data-section="commodities" onclick="showSection('commodities')">Commodities</button>
+                <button class="tab" data-section="mutual-funds" onclick="showSection('mutual-funds')">Mutual
+                    Funds</button>
+                <button class="tab" data-section="price-shockers" onclick="showSection('price-shockers')">Price
+                    Shockers</button>
+                <button class="tab" data-section="nse-active" onclick="showSection('nse-active')">NSE Active</button>
+                <button class="tab" data-section="bse-active" onclick="showSection('bse-active')">BSE Active</button>
+                <button class="tab" data-section="52-week" onclick="showSection('52-week')">52 Week H/L</button>
+            </div>
+
+            <!-- IPO Section -->
+            <div id="ipo-section" class="section-content active">
+                <div class="section-loading" id="ipo-loading">
+                    <div class="spinner"></div>
+                    <p>Loading IPO data...</p>
+                </div>
+                <div class="data-grid" id="ipo-grid"></div>
+            </div>
+
+            <!-- News Section -->
+            <div id="news-section" class="section-content">
+                <div class="section-loading" id="news-loading">
+                    <div class="spinner"></div>
+                    <p>Loading news...</p>
+                </div>
+                <div class="data-grid" id="news-grid"></div>
+            </div>
+
+            <!-- Commodities Section -->
+            <div id="commodities-section" class="section-content">
+                <div class="section-loading" id="commodities-loading">
+                    <div class="spinner"></div>
+                    <p>Loading commodities...</p>
+                </div>
+                <div class="data-grid" id="commodities-grid"></div>
+            </div>
+
+            <!-- Mutual Funds Section -->
+            <div id="mutual-funds-section" class="section-content">
+                <div class="section-loading" id="mutual-funds-loading">
+                    <div class="spinner"></div>
+                    <p>Loading mutual funds...</p>
+                </div>
+                <div class="data-grid" id="mutual-funds-grid"></div>
+            </div>
+
+            <!-- Price Shockers Section -->
+            <div id="price-shockers-section" class="section-content">
+                <div class="section-loading" id="price-shockers-loading">
+                    <div class="spinner"></div>
+                    <p>Loading price shockers...</p>
+                </div>
+                <div class="data-grid" id="price-shockers-grid"></div>
+            </div>
+
+            <!-- NSE Active Section -->
+            <div id="nse-active-section" class="section-content">
+                <div class="section-loading" id="nse-active-loading">
+                    <div class="spinner"></div>
+                    <p>Loading NSE most active...</p>
+                </div>
+                <div class="data-grid" id="nse-active-grid"></div>
+            </div>
+
+            <!-- BSE Active Section -->
+            <div id="bse-active-section" class="section-content">
+                <div class="section-loading" id="bse-active-loading">
+                    <div class="spinner"></div>
+                    <p>Loading BSE most active...</p>
+                </div>
+                <div class="data-grid" id="bse-active-grid"></div>
+            </div>
+
+            <!-- 52 Week High/Low Section -->
+            <div id="52-week-section" class="section-content">
+                <div class="section-loading" id="52-week-loading">
+                    <div class="spinner"></div>
+                    <p>Loading 52 week data...</p>
+                </div>
+                <div class="data-grid" id="52-week-grid"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Utilities
+        function formatCurrency(amount) {
+            if (!amount || isNaN(parseFloat(amount))) return '--';
+            const num = parseFloat(String(amount).replace(/[₹,]/g, ''));
+            if (num >= 10000000) return '₹' + (num / 10000000).toFixed(2) + ' Cr';
+            if (num >= 100000) return '₹' + (num / 100000).toFixed(2) + ' L';
+            return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+        }
+
+        function formatNumber(num) {
+            if (!num || isNaN(parseFloat(num))) return '--';
+            const val = parseFloat(String(num).replace(/,/g, ''));
+            if (val >= 10000000) return (val / 10000000).toFixed(2) + ' Cr';
+            if (val >= 100000) return (val / 100000).toFixed(2) + ' L';
+            return val.toLocaleString('en-IN');
+        }
+
+        function formatPercent(value) {
+            if (!value) return '--';
+            const num = parseFloat(String(value).replace(/[%+]/g, ''));
+            if (isNaN(num)) return '--';
+            const sign = num >= 0 ? '+' : '';
+            return `${sign}${num.toFixed(2)}%`;
+        }
+
+        function getChangeClass(value) {
+            const num = parseFloat(String(value).replace(/[%+]/g, ''));
+            return num >= 0 ? 'positive' : 'negative';
+        }
+
+        // Tab switching
+        function showSection(section) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+
+            document.querySelector(`[data-section="${section}"]`).classList.add('active');
+            document.getElementById(`${section}-section`).classList.add('active');
+
+            // Load data if not loaded
+            loadSectionData(section);
+        }
+
+        // Data loading
+        const loadedSections = {};
+
+        async function loadSectionData(section) {
+            if (loadedSections[section]) return;
+
+            const endpoints = {
+                'ipo': '/api/ipo',
+                'news': '/api/news',
+                'commodities': '/api/commodities',
+                'mutual-funds': '/api/mutual_funds',
+                'price-shockers': '/api/price_shockers',
+                'nse-active': '/api/nse_most_active',
+                'bse-active': '/api/bse_most_active',
+                '52-week': '/api/52_week_high_low'
+            };
+
+            try {
+                const response = await fetch(endpoints[section]);
+                const result = await response.json();
+
+                document.getElementById(`${section}-loading`).style.display = 'none';
+
+                if (result.success && result.data) {
+                    renderSection(section, result.data);
+                    loadedSections[section] = true;
+                } else {
+                    document.getElementById(`${section}-grid`).innerHTML = `
+            <div class="section-empty" style="grid-column: 1/-1;">
+              <p>Failed to load data</p>
+              <button class="btn btn-primary mt-4" onclick="loadedSections['${section}']=false; loadSectionData('${section}')">Retry</button>
+            </div>
+          `;
+                }
+            } catch (error) {
+                console.error(`Error loading ${section}:`, error);
+                document.getElementById(`${section}-loading`).style.display = 'none';
+                document.getElementById(`${section}-grid`).innerHTML = `
+          <div class="section-empty" style="grid-column: 1/-1;">
+            <p>Connection error</p>
+            <button class="btn btn-primary mt-4" onclick="loadedSections['${section}']=false; loadSectionData('${section}')">Retry</button>
+          </div>
+        `;
+            }
+        }
+
+        // Render sections
+        function renderSection(section, data) {
+            const grid = document.getElementById(`${section}-grid`);
+
+            switch (section) {
+                case 'ipo':
+                    renderIPO(grid, data);
+                    break;
+                case 'news':
+                    renderNews(grid, data);
+                    break;
+                case 'commodities':
+                    renderCommodities(grid, data);
+                    break;
+                case 'mutual-funds':
+                    renderMutualFunds(grid, data);
+                    break;
+                case 'price-shockers':
+                    renderPriceShockers(grid, data);
+                    break;
+                case 'nse-active':
+                case 'bse-active':
+                    renderActiveStocks(grid, data);
+                    break;
+                case '52-week':
+                    render52Week(grid, data);
+                    break;
+            }
+        }
+
+        function renderIPO(grid, data) {
+            let items = [];
+            // Handle array or wrapped object
+            if (Array.isArray(data)) {
+                items = data;
+            } else {
+                // Concatenate all arrays found in the object values
+                Object.values(data).forEach(val => {
+                    if (Array.isArray(val)) items.push(...val);
+                });
+            }
+
+            // Fallback if data itself is the object user showed
+            if (items.length === 0 && data.symbol) {
+                items = [data];
+            }
+
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="section-empty" style="grid-column: 1/-1;">No IPO data available</div>';
+                return;
+            }
+
+            grid.innerHTML = items.slice(0, 20).map(ipo => {
+                const name = ipo.name || ipo.companyName || ipo.company_name || 'Unknown';
+                const symbol = ipo.symbol || '';
+                const status = (ipo.status || 'Upcoming').toLowerCase();
+
+                // Price logic per user JSON
+                let priceDisplay = '--';
+                if (ipo.min_price && ipo.max_price) {
+                    priceDisplay = `₹${ipo.min_price} - ₹${ipo.max_price}`;
+                } else if (ipo.issue_price) {
+                    priceDisplay = `₹${ipo.issue_price}`;
+                } else if (ipo.price_band) {
+                    priceDisplay = ipo.price_band;
+                }
+
+                const openDate = ipo.bidding_start_date || ipo.open_date || '--';
+                const closeDate = ipo.bidding_end_date || ipo.close_date || '--';
+
+                return `
+        <div class="data-card ipo-card">
+          <div class="data-card-header">
+            <div>
+              <div class="data-card-title">${name}</div>
+              <div class="data-card-subtitle">${symbol}</div>
+            </div>
+            <span class="ipo-status ${status}">${status}</span>
+          </div>
+          <div class="data-card-price">${priceDisplay}</div>
+          <div class="data-card-row">
+            <span class="data-card-label">Open Date</span>
+            <span class="data-card-value">${openDate}</span>
+          </div>
+          <div class="data-card-row">
+            <span class="data-card-label">Close Date</span>
+            <span class="data-card-value">${closeDate}</span>
+          </div>
+          ${ipo.listing_date ? `<div class="data-card-row"><span class="data-card-label">Listing Date</span><span class="data-card-value">${ipo.listing_date}</span></div>` : ''}
+          ${ipo.document_url ? `<a href="${ipo.document_url}" target="_blank" class="btn btn-sm btn-secondary mt-3" style="width: 100%; text-align: center;">View DRHP</a>` : ''}
+        </div>
+      `
+            }).join('');
+        }
+
+        function renderNews(grid, data) {
+            let items = Array.isArray(data) ? data : (data.articles || data.news || []);
+
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="section-empty" style="grid-column: 1/-1;">No news available</div>';
+                return;
+            }
+
+            grid.innerHTML = items.slice(0, 20).map(news => `
+        <div class="data-card news-card">
+          ${news.image || news.imageUrl ? `<img src="${news.image || news.imageUrl}" alt="" class="news-image" onerror="this.style.display='none'">` : ''}
+          <div class="news-content">
+            <div class="news-title">${news.title || news.headline || 'No title'}</div>
+            <div class="news-meta">
+              ${news.source || news.publisher || ''} 
+              ${news.date || news.publishedAt || news.time || ''}
+            </div>
+            ${news.link || news.url ? `<a href="${news.link || news.url}" target="_blank" class="btn btn-sm btn-secondary mt-3">Read More</a>` : ''}
+          </div>
+        </div>
+      `).join('');
+        }
+
+        function renderCommodities(grid, data) {
+            // Commodities might be an object or array. User example is single object, but API likely returns array or map.
+            // If it's a single object (from user example context implying iteration), wrap in array.
+            let items = [];
+            if (Array.isArray(data)) {
+                items = data;
+            } else if (data.product) {
+                items = [data]; // Single object
+            } else {
+                items = Object.values(data).filter(item => typeof item === 'object' && item !== null);
+            }
+
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="section-empty" style="grid-column: 1/-1;">No commodities data available</div>';
+                return;
+            }
+
+            const icons = {
+                'gold': '🥇', 'silver': '🥈', 'crude': '🛢️', 'natural gas': '🔥',
+                'copper': '🔶', 'zinc': '⬜', 'aluminium': '📦', 'lead': '◼️'
+            };
+
+            grid.innerHTML = items.slice(0, 20).map(comm => {
+                // Use 'product' as the name per user example
+                const name = comm.product || comm.name || 'Unknown';
+                const iconName = Object.keys(icons).find(k => name.toLowerCase().includes(k)) || 'default';
+                const icon = icons[iconName] || '📊';
+
+                // Fields per user example
+                const price = comm.last_traded_price || comm.price || 0;
+                const change = comm.per_change || comm.percentChange || 0; // "per_change": 2.2
+                const high = comm.high_price || comm.high || 0;
+                const low = comm.low_price || comm.low || 0;
+                const expiry = comm.expiry || '';
+
+                return `
+          <div class="data-card">
+            <div class="data-card-header">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="commodity-icon">${icon}</div>
+                <div>
+                  <div class="data-card-title">${name}</div>
+                  <div class="data-card-subtitle">${expiry}</div>
+                </div>
+              </div>
+            </div>
+            <div class="data-card-price">${formatCurrency(price)}</div>
+            <div class="data-card-row">
+              <span class="data-card-label">Change</span>
+              <span class="data-card-value stock-change ${getChangeClass(change)}">${formatPercent(change)}</span>
+            </div>
+            <div class="data-card-row">
+              <span class="data-card-label">High</span>
+              <span class="data-card-value">${formatCurrency(high)}</span>
+            </div>
+            <div class="data-card-row">
+              <span class="data-card-label">Low</span>
+              <span class="data-card-value">${formatCurrency(low)}</span>
+            </div>
+          </div>
+        `;
+            }).join('');
+        }
+
+        function renderMutualFunds(grid, data) {
+            let items = [];
+
+            // Flatten the nested structure: { "Category": { "SubCategory": [ ... ] } }
+            if (typeof data === 'object' && !Array.isArray(data)) {
+                Object.keys(data).forEach(category => {
+                    const subcats = data[category];
+                    if (typeof subcats === 'object') {
+                        Object.keys(subcats).forEach(subcat => {
+                            const funds = subcats[subcat];
+                            if (Array.isArray(funds)) {
+                                items.push(...funds.map(f => ({ ...f, category: subcat })));
+                            }
+                        });
+                    }
+                });
+            } else if (Array.isArray(data)) {
+                items = data;
+            }
+
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="section-empty" style="grid-column: 1/-1;">No mutual funds data available</div>';
+                return;
+            }
+
+            grid.innerHTML = items.slice(0, 20).map(fund => {
+                // Fields per user example: fund_name, latest_nav, percentage_change, 1_year_return, star_rating
+                const name = fund.fund_name || fund.name || 'Unknown';
+                const nav = fund.latest_nav || fund.nav || 0;
+                // const change = fund.percentage_change || 0; 
+                const ret1y = fund['1_year_return'] || 0;
+                const ret3y = fund['3_year_return'] || 0;
+                const rating = fund.star_rating ? '★'.repeat(fund.star_rating) : '--';
+
+                return `
+        <div class="data-card">
+          <div class="data-card-header">
+            <div>
+              <div class="data-card-title" style="font-size: 0.9rem;">${name}</div>
+              <div class="data-card-subtitle">${fund.category || ''}</div>
+            </div>
+          </div>
+          <div class="data-card-price">${formatCurrency(nav)}</div>
+          <div class="data-card-row">
+            <span class="data-card-label">1Y Return</span>
+            <span class="data-card-value stock-change ${getChangeClass(ret1y)}">${formatPercent(ret1y)}</span>
+          </div>
+          <div class="data-card-row">
+            <span class="data-card-label">3Y Return</span>
+            <span class="data-card-value stock-change ${getChangeClass(ret3y)}">${formatPercent(ret3y)}</span>
+          </div>
+          <div class="data-card-row">
+            <span class="data-card-label">Rating</span>
+            <span class="data-card-value" style="color: var(--warning); letter-spacing: 2px;">${rating}</span>
+          </div>
+        </div>
+      `
+            }).join('');
+        }
+
+        function renderPriceShockers(grid, data) {
+            let items = [];
+            if (Array.isArray(data)) {
+                items = data;
+            } else {
+                // Extract from keys like BSE_PriceShocker
+                Object.keys(data).forEach(key => {
+                    if (Array.isArray(data[key])) items.push(...data[key]);
+                });
+            }
+
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="section-empty" style="grid-column: 1/-1;">No price shockers data available</div>';
+                return;
+            }
+
+            grid.innerHTML = items.slice(0, 20).map(stock => {
+                // Fields: displayName, price, percentChange, volume
+                const name = stock.displayName || stock.company || stock.name || 'Unknown';
+                const symbol = stock.nseCode || stock.ticker || '';
+                const price = stock.price || 0;
+                const change = stock.percentChange || 0;
+
+                return `
+          <div class="data-card" style="border-left: 3px solid ${getChangeClass(change) === 'positive' ? 'var(--success)' : 'var(--danger)'};">
+            <div class="data-card-header">
+              <div>
+                <div class="data-card-title">${name}</div>
+                <div class="data-card-subtitle">${symbol}</div>
+              </div>
+              <span class="data-card-change stock-change ${getChangeClass(change)}">${formatPercent(change)}</span>
+            </div>
+            <div class="data-card-price">${formatCurrency(price)}</div>
+            <div class="data-card-row">
+              <span class="data-card-label">Volume</span>
+              <span class="data-card-value">${formatNumber(stock.volume)}</span>
+            </div>
+            <a href="/stock-detail.html?name=${encodeURIComponent(name)}" class="btn btn-sm btn-secondary mt-3" style="width: 100%;">View Details</a>
+          </div>
+        `;
+            }).join('');
+        }
+
+        function renderActiveStocks(grid, data) {
+            // Fields: company, price, percent_change, volume
+            let items = Array.isArray(data) ? data : (data.stocks || data.most_active || []);
+
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="section-empty" style="grid-column: 1/-1;">No data available</div>';
+                return;
+            }
+
+            grid.innerHTML = items.slice(0, 20).map(stock => {
+                const name = stock.company || stock.name || 'Unknown';
+                const symbol = stock.ticker || stock.symbol || '';
+                const price = stock.price || 0;
+                const change = stock.percent_change || stock.percentChange || 0;
+
+                return `
+          <div class="data-card">
+            <div class="data-card-header">
+              <div>
+                <div class="data-card-title">${name}</div>
+                <div class="data-card-subtitle">${symbol}</div>
+              </div>
+              <span class="data-card-change stock-change ${getChangeClass(change)}">${formatPercent(change)}</span>
+            </div>
+            <div class="data-card-price">${formatCurrency(price)}</div>
+            <div class="data-card-row">
+              <span class="data-card-label">Volume</span>
+              <span class="data-card-value">${formatNumber(stock.volume)}</span>
+            </div>
+            <a href="/stock-detail.html?name=${encodeURIComponent(name)}" class="btn btn-sm btn-secondary mt-3" style="width: 100%;">View Details</a>
+          </div>
+        `;
+            }).join('');
+        }
+
+        function render52Week(grid, data) {
+            let items = [];
+
+            // Navigate potential wrappers like { "BSE_52WeekHighLow": ... }
+            let root = data;
+            // Try to find a key that looks like a 52Week container if not at root
+            const keys = Object.keys(data);
+            const highLowKey = keys.find(k => k.includes('52WeekHighLow'));
+            if (highLowKey) {
+                root = data[highLowKey];
+            }
+
+            const highs = root.high52Week || root.high || [];
+            const lows = root.low52Week || root.low || [];
+
+            items = [...highs.map(h => ({ ...h, type: 'high' })), ...lows.map(l => ({ ...l, type: 'low' }))];
+
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="section-empty" style="grid-column: 1/-1;">No 52 week data available</div>';
+                return;
+            }
+
+            grid.innerHTML = items.slice(0, 20).map(stock => {
+                const name = stock.company || stock.name || 'Unknown';
+                const symbol = stock.ticker || stock.symbol || '';
+                const price = stock.price || 0;
+                const isHigh = stock.type === 'high';
+                const limitLabel = isHigh ? '52W High' : '52W Low';
+                const limitValue = isHigh ? stock['52_week_high'] : stock['52_week_low'];
+
+                return `
+        <div class="data-card" style="border-left: 3px solid ${isHigh ? 'var(--success)' : 'var(--danger)'};">
+          <div class="data-card-header">
+            <div>
+              <div class="data-card-title">${name}</div>
+              <div class="data-card-subtitle">${symbol}</div>
+            </div>
+            <span class="ipo-status ${isHigh ? 'open' : 'closed'}">${limitLabel}</span>
+          </div>
+          <div class="data-card-price">${formatCurrency(price)}</div>
+          <div class="data-card-row">
+            <span class="data-card-label">${limitLabel}</span>
+            <span class="data-card-value">${formatCurrency(limitValue)}</span>
+          </div>
+          <a href="/stock-detail.html?name=${encodeURIComponent(name)}" class="btn btn-sm btn-secondary mt-3" style="width: 100%;">View Details</a>
+        </div>
+      `
+            }).join('');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const balance = localStorage.getItem('stockquest_balance') || 1000000;
+            document.getElementById('userBalance').textContent = formatCurrency(balance);
+
+            // Load IPO by default
+            loadSectionData('ipo');
+        });
+    </script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

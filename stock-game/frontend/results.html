@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your contest results and AI-powered learning insights">
+    <title>Results | StockFantasy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">SF</div>
+                <span class="logo-text">StockFantasy</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="contest.html" class="nav-link">Play</a>
+            </div>
+
+            <div class="user-stats">
+                <div class="stat-badge">
+                    <span class="stat-badge-icon">💰</span>
+                    <span class="stat-badge-value" id="userBalance">₹10,00,000</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page" style="padding-top: 6rem;">
+        <div class="container">
+            <!-- Score Reveal -->
+            <section id="scoreReveal" class="score-reveal animate-fade-in">
+                <div class="score-value">0</div>
+                <div class="score-label">Total Points</div>
+                <div class="rank-badge">
+                    <span class="rank-badge-icon">📚</span>
+                    <span class="rank-badge-text">Beginner</span>
+                </div>
+            </section>
+
+            <!-- Result Grid -->
+            <div style="display: grid; grid-template-columns: 1fr 400px; gap: 2rem; margin-top: 2rem;">
+                <!-- Main Content -->
+                <div>
+                    <!-- Points Breakdown -->
+                    <section class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <h2 class="card-title">📊 Points Breakdown</h2>
+                        </div>
+
+                        <div id="pointsBreakdown">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Stock</th>
+                                        <th>Role</th>
+                                        <th>Change</th>
+                                        <th>Base Score</th>
+                                        <th>Multiplier</th>
+                                        <th>Final</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="6"
+                                            style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                            Points breakdown will appear after contest ends
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Leaderboard -->
+                    <section id="leaderboard" class="leaderboard">
+                        <div class="leaderboard-header">
+                            <h3>🏆 Leaderboard</h3>
+                        </div>
+                        <div style="padding: 2rem; text-align: center; color: var(--text-secondary);">
+                            Leaderboard will be available after contest ends
+                        </div>
+                    </section>
+                </div>
+
+                <!-- AI Learning Panel -->
+                <aside>
+                    <div class="card learning-panel" id="learningPanel">
+                        <div class="learning-header">
+                            <span class="learning-icon">🧠</span>
+                            <span class="learning-title">AI Learning Insights</span>
+                        </div>
+
+                        <div class="insight-card positive">
+                            <div class="insight-title">Great Start!</div>
+                            <div class="insight-text">
+                                You've completed your first contest. Keep playing to improve your stock-picking skills!
+                            </div>
+                        </div>
+
+                        <div class="insight-card">
+                            <div class="insight-title">What to Learn</div>
+                            <div class="insight-text">
+                                Track which sectors are performing well and diversify your picks across different
+                                industries.
+                            </div>
+                        </div>
+
+                        <div class="learning-tip">
+                            <span class="tip-icon">💡</span>
+                            <span class="tip-text">
+                                Tip: Check market news before the next contest. Global events often impact Indian
+                                stocks!
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="card" style="margin-top: 1.5rem;">
+                        <h3 style="margin-bottom: 1rem; font-size: 1rem;">What's Next?</h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <a href="contest.html" class="btn btn-primary" style="width: 100%;">
+                                🎮 Play Another Contest
+                            </a>
+                            <a href="dashboard.html" class="btn btn-secondary" style="width: 100%;">
+                                📊 View Dashboard
+                            </a>
+                            <a href="index.html" class="btn btn-secondary" style="width: 100%;">
+                                🏠 Back to Home
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Disclaimer -->
+                    <div class="disclaimer-banner" style="margin-top: 1.5rem;">
+                        <span class="disclaimer-icon">ℹ️</span>
+                        <div class="disclaimer-text" style="font-size: 0.75rem;">
+                            This is a learning game with virtual money. No real trading or financial risk involved.
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Animate score on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const score = parseFloat(params.get('score')) || 0;
+
+            const scoreEl = document.querySelector('.score-value');
+            if (scoreEl) {
+                // Animate counting up
+                let current = 0;
+                const increment = score / 50;
+                const interval = setInterval(() => {
+                    current += increment;
+                    if (current >= score) {
+                        current = score;
+                        clearInterval(interval);
+                    }
+                    scoreEl.textContent = Math.round(current);
+                }, 30);
+            }
+        });
+    </script>
+</body>
+
+</html>

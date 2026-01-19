@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockQuest - Fantasy Stock Market</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/theme.js"></script>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 3v18h18" />
+            <path d="M18 9l-5 5-4-4-3 3" />
+          </svg>
+        </div>
+        <div>
+          <span class="logo-text">StockQuest</span>
+          <span class="logo-subtitle">Fantasy Stock Market</span>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a href="dashboard.html" class="nav-link active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 3v18h18" />
+            <path d="M18 9l-5 5-4-4-3 3" />
+          </svg>
+          Stocks
+        </a>
+        <a href="market.html" class="nav-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" />
+          </svg>
+          Market
+        </a>
+        <a href="portfolio.html" class="nav-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <path d="M8 21h8" />
+            <path d="M12 17v4" />
+          </svg>
+          Portfolio
+        </a>
+        <a href="leaderboard.html" class="nav-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+            <path d="M4 22h16" />
+            <path d="M10 22V8a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v14" />
+          </svg>
+          Leaderboard
+        </a>
+      </div>
+
+      <div class="user-stats">
+        <button class="btn-icon" id="navThemeToggle" title="Toggle Theme" style="margin-right: 12px; border: none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <div class="balance-display">
+          <span class="balance-label">Balance</span>
+          <span class="balance-value" id="userBalance">--</span>
+        </div>
+        <div class="user-avatar" id="userAvatar" onclick="toggleUserMenu()">?</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <div class="layout-sidebar">
+        <!-- Stock Grid -->
+        <div class="stocks-section">
+          <div class="page-header flex justify-between items-center">
+            <div>
+              <h1 class="page-title">Explore Stocks</h1>
+              <p class="page-subtitle">Select up to 11 stocks for your portfolio</p>
+            </div>
+            <span class="team-count"><span id="selectedCount">0</span>/11 selected</span>
+          </div>
+
+          <!-- Search & Filters -->
+          <div class="flex gap-4 mb-4" style="flex-wrap: wrap;">
+            <div class="search-box" style="flex: 1; min-width: 250px;">
+              <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+              </svg>
+              <input type="text" id="stockSearch" class="input" placeholder="Search stocks (press Enter to search all)"
+                onkeyup="handleSearch(event)" onkeydown="handleSearchKeydown(event)">
+            </div>
+            <div class="pills">
+              <button class="pill active" data-filter="all" onclick="setFilter('all')">All</button>
+              <button class="pill" data-filter="gainers" onclick="setFilter('gainers')">Gainers</button>
+              <button class="pill" data-filter="losers" onclick="setFilter('losers')">Losers</button>
+            </div>
+          </div>
+
+          <!-- Stock Grid -->
+          <div class="grid grid-3" id="stockGrid">
+            <div class="loading">
+              <div class="spinner"></div>
+              <span>Loading stocks...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Sidebar -->
+        <div class="team-sidebar">
+          <div class="sidebar-header">
+            <h3 class="sidebar-title">Your Team</h3>
+            <button class="btn btn-sm btn-secondary" onclick="clearTeam()">Clear All</button>
+          </div>
+
+          <div class="team-stats mb-4">
+            <div class="flex justify-between mb-2">
+              <span class="text-muted">Total Invested</span>
+              <span class="balance-value" id="totalInvested">--</span>
+            </div>
+            <div class="progress-bar" style="height: 4px; background: var(--bg-hover); border-radius: 2px;">
+              <div class="progress-fill" id="investmentProgress"
+                style="height: 100%; background: var(--accent); border-radius: 2px; width: 0%; transition: width 0.3s;">
+              </div>
+            </div>
+          </div>
+
+          <div id="teamList" class="team-list">
+            <div class="empty-state" style="padding: 40px 20px;">
+              <div class="empty-state-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              </div>
+              <p class="empty-state-title">No stocks selected</p>
+              <p class="empty-state-desc">Click on stocks to add them to your team</p>
+            </div>
+          </div>
+
+          <div id="multiplierInfo" class="mt-4" style="display: none;">
+            <p class="text-muted mb-2" style="font-size: 0.8rem;">Multipliers</p>
+            <button class="btn btn-secondary btn-sm" style="width: 100%; margin-bottom: 8px;" id="captainBtn"
+              onclick="selectCaptain()">
+              Select Captain (2x points)
+            </button>
+            <button class="btn btn-secondary btn-sm" style="width: 100%;" id="vcBtn" onclick="selectViceCaptain()">
+              Select Vice Captain (1.5x points)
+            </button>
+          </div>
+
+          <button class="btn btn-primary mt-4" style="width: 100%;" id="createPortfolioBtn" onclick="createPortfolio()"
+            disabled>
+            Create Portfolio
+          </button>
+          <p id="minRequired" class="text-muted mt-2" style="font-size: 0.8rem; text-align: center;">
+            Select at least 5 stocks
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Stock Modal -->
+  <div class="modal" id="stockModal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <h3 id="modalStockName">Stock Name</h3>
+          <span class="text-muted" id="modalSymbol">SYMBOL</span>
+        </div>
+        <button class="modal-close" onclick="closeStockModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center; padding: 20px 0;">
+          <div class="stock-price" id="modalPrice">--</div>
+          <div id="modalChange" class="stock-change">--</div>
+        </div>
+
+        <div class="grid grid-2 gap-3">
+          <div class="card" style="padding: 12px; text-align: center;">
+            <div class="text-muted" style="font-size: 0.75rem;">Market Cap</div>
+            <div id="modalMarketCap" style="font-weight: 600;">--</div>
+          </div>
+          <div class="card" style="padding: 12px; text-align: center;">
+            <div class="text-muted" style="font-size: 0.75rem;">P/E Ratio</div>
+            <div id="modalPE" style="font-weight: 600;">--</div>
+          </div>
+          <div class="card" style="padding: 12px; text-align: center;">
+            <div class="text-muted" style="font-size: 0.75rem;">52W High</div>
+            <div id="modal52High" style="font-weight: 600;">--</div>
+          </div>
+          <div class="card" style="padding: 12px; text-align: center;">
+            <div class="text-muted" style="font-size: 0.75rem;">52W Low</div>
+            <div id="modal52Low" style="font-weight: 600;">--</div>
+          </div>
+          <div class="card" style="padding: 12px; text-align: center;">
+            <div class="text-muted" style="font-size: 0.75rem;">Volume</div>
+            <div id="modalVolume" style="font-weight: 600;">--</div>
+          </div>
+          <div class="card" style="padding: 12px; text-align: center;">
+            <div class="text-muted" style="font-size: 0.75rem;">Sector</div>
+            <div id="modalSector" style="font-weight: 600;">--</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeStockModal()">Close</button>
+        <button class="btn btn-primary" id="modalAddBtn" onclick="addStockFromModal()">Add to Team</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="/js/firestore.js"></script>
+  <script src="/js/stock-api.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+
+</html>

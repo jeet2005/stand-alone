@@ -1,0 +1,343 @@
+/*
+ * Leaderboard Page Styles
+ */
+
+/* Leaderboard Header */
+.leaderboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.live-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 20px;
+    color: #ef4444;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Podium Section */
+.podium-section {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: end;
+}
+
+.podium-card {
+    background: var(--sq-bg-card);
+    border: 2px solid var(--sq-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.podium-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.podium-card.gold {
+    border-color: rgba(250, 204, 21, 0.4);
+    background: linear-gradient(180deg, rgba(250, 204, 21, 0.1) 0%, var(--sq-bg-card) 100%);
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.podium-card.silver {
+    border-color: rgba(192, 192, 192, 0.3);
+    background: linear-gradient(180deg, rgba(192, 192, 192, 0.08) 0%, var(--sq-bg-card) 100%);
+}
+
+.podium-card.bronze {
+    border-color: rgba(205, 127, 50, 0.3);
+    background: linear-gradient(180deg, rgba(205, 127, 50, 0.08) 0%, var(--sq-bg-card) 100%);
+}
+
+.podium-badge {
+    position: absolute;
+    top: -12px;
+    right: -8px;
+    font-size: 2rem;
+}
+
+.podium-avatar {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    background: var(--sq-green);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.podium-card.gold .podium-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 1.5rem;
+    box-shadow: 0 0 30px rgba(250, 204, 21, 0.3);
+}
+
+.podium-card.silver .podium-avatar {
+    background: #9ca3af;
+}
+
+.podium-card.bronze .podium-avatar {
+    background: #cd7f32;
+}
+
+.podium-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.podium-card.gold .podium-name {
+    font-size: 1.125rem;
+}
+
+.podium-portfolio {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.podium-points {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--sq-green);
+    margin-bottom: 0.5rem;
+}
+
+.points-icon {
+    font-size: 1rem;
+}
+
+.podium-returns {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.podium-returns.positive {
+    color: var(--sq-green);
+}
+
+.podium-returns.negative {
+    color: #ef4444;
+}
+
+/* Rankings Section */
+.rankings-section {
+    margin-bottom: 2rem;
+}
+
+.rankings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ranking-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--sq-bg-card);
+    border: 1px solid var(--sq-border);
+    border-radius: 12px;
+    transition: all 0.2s;
+}
+
+.ranking-row:hover {
+    border-color: var(--sq-green-border);
+    background: var(--sq-bg-card-hover);
+}
+
+.ranking-position {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--sq-border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.ranking-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--sq-green);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.ranking-info {
+    flex: 1;
+}
+
+.ranking-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.125rem;
+}
+
+.ranking-portfolio {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.ranking-stats {
+    text-align: right;
+}
+
+.ranking-points {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--sq-green);
+}
+
+.ranking-returns {
+    font-size: 0.85rem;
+}
+
+.ranking-returns.positive {
+    color: var(--sq-green);
+}
+
+.ranking-returns.negative {
+    color: #ef4444;
+}
+
+/* Your Rank Card */
+.your-rank-card {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--sq-bg-card);
+    border-top: 1px solid var(--sq-green);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+}
+
+.your-rank-badge {
+    padding: 0.25rem 0.75rem;
+    background: var(--sq-green);
+    color: #000;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.your-rank-position {
+    width: 40px;
+    height: 40px;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid var(--sq-green-border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.your-rank-info {
+    flex: 1;
+}
+
+.your-rank-name {
+    font-weight: 600;
+}
+
+.your-rank-portfolio {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.your-rank-stats {
+    text-align: right;
+}
+
+.your-rank-points {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--sq-green);
+}
+
+.your-rank-returns {
+    font-size: 0.85rem;
+    color: var(--sq-green);
+}
+
+/* Add bottom padding to main content for fixed your-rank-card */
+.main-content {
+    padding-bottom: 6rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .podium-section {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .podium-card.gold {
+        order: -1;
+    }
+
+    .your-rank-card {
+        padding: 0.75rem 1rem;
+    }
+}

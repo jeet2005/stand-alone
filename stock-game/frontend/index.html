@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockQuest - Master the Market</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/theme.js"></script>
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #00D09C 0%, #00B084 100%);
+      --hero-gradient: radial-gradient(circle at top center, rgba(0, 208, 156, 0.15) 0%, rgba(10, 10, 10, 0) 70%);
+      --bg-dark: #0A0A0A;
+      --bg-darker: #050505;
+      --text-gray: #888;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background-color: var(--bg-dark);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    .landing-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 48px;
+      backdrop-filter: blur(10px);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: background 0.3s;
+    }
+
+    .landing-nav.scrolled {
+      background: rgba(10, 10, 10, 0.8);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .brand svg {
+      color: var(--accent);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .btn-outline:hover {
+      border-color: white;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-primary-glow {
+      background: var(--primary-gradient);
+      color: #000;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(0, 208, 156, 0.4);
+      transition: all 0.3s;
+    }
+
+    .btn-primary-glow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(0, 208, 156, 0.6);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 140px 20px 60px;
+      background: var(--hero-gradient);
+      position: relative;
+    }
+
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      background: linear-gradient(to right, #fff, #a0a0a0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      max-width: 900px;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-gray);
+      margin-bottom: 48px;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 80px;
+    }
+
+    .cta-large {
+      padding: 16px 48px;
+      font-size: 1.1rem;
+    }
+
+    /* Dashboard Preview */
+    .dashboard-preview {
+      width: 90%;
+      max-width: 1200px;
+      aspect-ratio: 16/9;
+      background: rgba(20, 20, 20, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      transform: perspective(1000px) rotateX(10deg);
+      transition: transform 0.5s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dashboard-preview:hover {
+      transform: perspective(1000px) rotateX(0deg);
+    }
+
+    .preview-content {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.1);
+      font-size: 2rem;
+      font-weight: 700;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Features Section */
+    .section {
+      padding: 100px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      color: var(--text-gray);
+      font-size: 1.1rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 40px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(0, 208, 156, 0.1);
+      color: var(--accent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .feature-card p {
+      color: var(--text-gray);
+      line-height: 1.5;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      background: var(--bg-darker);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .stat-label {
+      color: var(--text-gray);
+      font-weight: 500;
+    }
+
+    /* Footer */
+    footer {
+      padding: 60px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: var(--bg-darker);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      color: var(--text-gray);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    /* Background Blobs */
+    .decoration-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      z-index: -1;
+    }
+
+    .blob-1 {
+      width: 400px;
+      height: 400px;
+      background: #00D09C;
+      top: -100px;
+      left: -100px;
+    }
+
+    .blob-2 {
+      width: 300px;
+      height: 300px;
+      background: #7B61FF;
+      bottom: 20%;
+      right: -50px;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .landing-nav {
+        padding: 16px 20px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        gap: 24px;
+      }
+    }
+
+    /* Mock Dashboard Styles */
+    .mock-watchlist {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      flex-direction: column;
+      gap: 12px;
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .mock-watchlist {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="decoration-blob blob-1"></div>
+  <div class="decoration-blob blob-2"></div>
+
+  <nav class="landing-nav" id="navbar">
+    <a href="/" class="brand">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 3v18h18" />
+        <path d="M18 9l-5 5-4-4-3 3" />
+      </svg>
+      StockQuest
+    </a>
+    <div class="nav-actions">
+      <a href="login.html" class="btn-outline">Login</a>
+      <a href="signup.html" class="btn-primary-glow">Sign Up</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <h1>Master the Markets<br>Risk Free</h1>
+    <p>Experience the thrill of stock trading with ₹10L virtual currency. Build your portfolio, compete on the
+      leaderboard, and learn without losing a dime.</p>
+
+    <div class="cta-group">
+      <a href="signup.html" class="btn-primary-glow cta-large">Start Trading Now</a>
+      <a href="market.html" class="btn-outline cta-large">View Live Market</a>
+    </div>
+
+    <div class="dashboard-preview">
+      <!-- Mock Dashboard UI -->
+      <div class="mock-ui-container"
+        style="width: 100%; height: 100%; display: flex; flex-direction: column; background: #0A0A0A;">
+        <!-- Mock Nav -->
+        <div
+          style="padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-weight: 700; color: #fff;">StockQuest</div>
+          <div style="display: flex; gap: 16px; align-items: center;">
+            <div style="width: 20px; height: 20px; border-radius: 50%; background: #00D09C;"></div>
+            <div style="width: 100px; height: 12px; background: rgba(255,255,255,0.1); border-radius: 4px;"></div>
+          </div>
+        </div>
+
+        <!-- Mock Content -->
+        <div style="padding: 24px; flex: 1; display: flex; gap: 24px;">
+          <!-- Left Col -->
+          <div style="flex: 2; display: flex; flex-direction: column; gap: 16px;">
+            <!-- Balance Card -->
+            <div
+              style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px;">
+              <div style="color: #888; font-size: 0.8rem; margin-bottom: 8px;">Portfolio Value</div>
+              <div style="font-size: 2rem; font-weight: 700; color: #00D09C;">₹10,45,230</div>
+              <div style="color: #00D09C; font-size: 0.9rem; margin-top: 4px;">+4.52% Today</div>
+            </div>
+
+            <!-- Graph Area -->
+            <div
+              style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; height: 100%; position: relative; overflow: hidden; min-height: 150px;">
+              <!-- Simulated Graph Line -->
+              <svg width="100%" height="100%" preserveAspectRatio="none" style="position: absolute; bottom: 0;">
+                <path d="M0,150 Q50,140 100,100 T200,80 T300,120 T400,60 T500,90 T600,40 T700,50 V200 H0 Z"
+                  fill="url(#gradient)" opacity="0.2" />
+                <path d="M0,150 Q50,140 100,100 T200,80 T300,120 T400,60 T500,90 T600,40 T700,50" fill="none"
+                  stroke="#00D09C" stroke-width="2" />
+                <defs>
+                  <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#00D09C" />
+                    <stop offset="100%" stop-color="transparent" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Right Col (Watchlist) -->
+          <div class="mock-watchlist">
+            <!-- List Items -->
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div
+                  style="width: 40px; height: 10px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-bottom: 4px;">
+                </div>
+                <div style="width: 60px; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px;"></div>
+              </div>
+              <div style="color: #00D09C;">+1.2%</div>
+            </div>
+            <div style="width: 100%; height: 1px; background: rgba(255,255,255,0.05);"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div
+                  style="width: 40px; height: 10px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-bottom: 4px;">
+                </div>
+                <div style="width: 60px; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px;"></div>
+              </div>
+              <div style="color: #ff4d4d;">-0.8%</div>
+            </div>
+            <div style="width: 100%; height: 1px; background: rgba(255,255,255,0.05);"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div
+                  style="width: 40px; height: 10px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-bottom: 4px;">
+                </div>
+                <div style="width: 60px; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px;"></div>
+              </div>
+              <div style="color: #00D09C;">+2.4%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features Section -->
+  <section class="section" id="features">
+    <div class="section-header">
+      <h2 class="section-title">Why StockQuest?</h2>
+      <p class="section-subtitle">Everything you need to learn stock trading without the risk.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+        <h3>Real-time Data</h3>
+        <p>Track live stock prices, market trends, and top movers. Get expected prices on commodities and IPOs.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <h3>Compete with Friends</h3>
+        <p>Create your fantasy portfolio, earn points based on real market performance, and climb the leaderboard.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <h3>Zero Risk</h3>
+        <p>Start with ₹10,00,000 in virtual currency. Experiment with strategies without risking your hard-earned money.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="section stats-grid">
+      <div class="stat-item">
+        <div class="stat-value">₹10L</div>
+        <div class="stat-label">Virtual Cash</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">50+</div>
+        <div class="stat-label">Stocks Tracked</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">24/7</div>
+        <div class="stat-label">System Uptime</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Free to Play</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section" style="text-align: center; padding: 100px 20px;">
+    <h2 class="section-title">Ready to Start Your Journey?</h2>
+    <p class="section-subtitle" style="margin-bottom: 40px;">Join thousands of traders learning the market today.</p>
+    <a href="signup.html" class="btn-primary-glow cta-large">Create Free Account</a>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="brand" style="font-size: 1.2rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3v18h18" />
+          <path d="M18 9l-5 5-4-4-3 3" />
+        </svg>
+        StockQuest
+      </div>
+      <div class="footer-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Help</a>
+        <a href="https://github.com/yourusername/stock-game" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Auth check
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // Optional: Change Login button to Dashboard
+        const loginBtn = document.querySelector('.btn-outline');
+        if (loginBtn) {
+          loginBtn.textContent = 'Dashboard';
+          loginBtn.href = 'dashboard.html';
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

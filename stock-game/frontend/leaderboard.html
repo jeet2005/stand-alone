@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | StockQuest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/theme.js"></script>
+    <style>
+        .podium {
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            gap: 16px;
+            margin: 40px 0;
+        }
+
+        .podium-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            text-align: center;
+            width: 200px;
+            transition: all 0.3s;
+        }
+
+        .podium-card.first {
+            transform: translateY(-20px);
+            border-color: var(--warning);
+            background: linear-gradient(180deg, rgba(247, 185, 36, 0.1) 0%, var(--bg-card) 100%);
+        }
+
+        .podium-card.second {
+            border-color: #c0c0c0;
+        }
+
+        .podium-card.third {
+            border-color: #cd7f32;
+        }
+
+        .podium-rank {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .podium-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-hover);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .podium-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .podium-points {
+            font-family: var(--font-mono);
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .rank-list {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .rank-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            margin-bottom: 8px;
+        }
+
+        .rank-position {
+            width: 32px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .rank-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-hover);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .rank-info {
+            flex: 1;
+        }
+
+        .rank-name {
+            font-weight: 500;
+        }
+
+        .rank-portfolio {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .rank-points {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .your-rank {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(235, 87, 87, 0.1);
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--danger);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3v18h18" />
+                        <path d="M18 9l-5 5-4-4-3 3" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="logo-text">StockQuest</span>
+                    <span class="logo-subtitle">Fantasy Stock Market</span>
+                </div>
+            </div>
+
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3v18h18" />
+                        <path d="M18 9l-5 5-4-4-3 3" />
+                    </svg>
+                    Stocks
+                </a>
+                <a href="market.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l4 2" />
+                    </svg>
+                    Market
+                </a>
+                <a href="portfolio.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                        <path d="M8 21h8" />
+                        <path d="M12 17v4" />
+                    </svg>
+                    Portfolio
+                </a>
+                <a href="leaderboard.html" class="nav-link active">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                        <path d="M4 22h16" />
+                        <path d="M10 22V8a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v14" />
+                    </svg>
+                    Leaderboard
+                </a>
+            </div>
+
+            <div class="user-stats">
+                <button class="btn-icon" id="navThemeToggle" title="Toggle Theme"
+                    style="margin-right: 12px; border: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <div class="balance-display">
+                    <span class="balance-label">Balance</span>
+                    <span class="balance-value" id="userBalance">--</span>
+                </div>
+                <div class="user-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" style="padding-bottom: 100px;">
+        <div class="container">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h1 class="page-title">Global Leaderboard</h1>
+                    <p class="page-subtitle">Top performers in the current contest</p>
+                </div>
+                <div class="live-badge">
+                    <span class="live-dot"></span>
+                    Live
+                </div>
+            </div>
+
+            <!-- Top 3 Podium (Dynamic now) -->
+            <div class="podium" id="podium">
+                <div class="section-loading">Loading...</div>
+            </div>
+
+            <!-- Rankings List -->
+            <div class="rank-list" id="rankList">
+                <!-- Will be populated by JS -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Your Rank -->
+    <div class="your-rank">
+        <span class="text-muted">Your Rank:</span>
+        <span style="font-size: 1.25rem; font-weight: 700;" id="yourRank">--</span>
+        <span class="text-muted">Points:</span>
+        <span style="font-size: 1.25rem; font-weight: 700; color: var(--accent);" id="yourPoints">--</span>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/firestore.js"></script>
+
+    <script>
+        function formatNumber(num) {
+            return parseFloat(num || 0).toLocaleString();
+        }
+
+        // Load Leaderboard
+        function renderLeaderboard(data) {
+            const podiumEl = document.getElementById('podium');
+            const listEl = document.getElementById('rankList');
+
+            if (data.length === 0) {
+                podiumEl.innerHTML = '<div class="text-muted">No participants yet</div>';
+                listEl.innerHTML = '';
+                return;
+            }
+
+            // Slice top 3 for podium
+            const top3 = data.slice(0, 3);
+            const rest = data.slice(3);
+
+            // Reorder top 3 for visualization (2, 1, 3)
+            let orderedPodium = [];
+            if (top3[1]) orderedPodium.push({ ...top3[1], place: 'second' }); // 2
+            if (top3[0]) orderedPodium.push({ ...top3[0], place: 'first' });  // 1
+            if (top3[2]) orderedPodium.push({ ...top3[2], place: 'third' });  // 3
+
+            podiumEl.innerHTML = orderedPodium.map(p => `
+                <div class="podium-card ${p.place}">
+                    <div class="podium-rank">${p.rank}</div>
+                    <div class="podium-avatar">${(p.name || 'U').substring(0, 2).toUpperCase()}</div>
+                    <div class="podium-name">${p.name || 'User'}</div>
+                    <div class="podium-points">${formatNumber(p.points)} pts</div>
+                    <div class="text-success" style="font-size: 0.85rem;">+0.00%</div>
+                </div>
+            `).join('');
+
+            // Rest list
+            listEl.innerHTML = rest.map(r => `
+                <div class="rank-item">
+                    <div class="rank-position">${r.rank}</div>
+                    <div class="rank-avatar">${(r.name || 'U').substring(0, 2).toUpperCase()}</div>
+                    <div class="rank-info">
+                        <div class="rank-name">${r.name || 'User'}</div>
+                        <div class="rank-portfolio">Portfolio Value: ₹${formatNumber(r.invested || 0)}</div>
+                    </div>
+                    <div class="rank-points">${formatNumber(r.points)} pts</div>
+                    <div class="text-success" style="font-size: 0.85rem;">+0.00%</div>
+                </div>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check Local Balance
+            const balance = localStorage.getItem('stockquest_balance') || 1000000;
+            document.getElementById('userBalance').textContent = '₹' + (balance / 100000).toFixed(2) + ' L';
+
+            // Subscribe to real-time leaderboard
+            Database.onLeaderboardChange((data) => {
+                renderLeaderboard(data);
+
+                // Update "Your Rank" if logged in
+                const user = firebase.auth().currentUser;
+                if (user) {
+                    const myEntry = data.find(d => d.id === user.uid);
+                    if (myEntry) {
+                        document.getElementById('yourRank').textContent = '#' + myEntry.rank;
+                        document.getElementById('yourPoints').textContent = formatNumber(myEntry.points);
+                    } else {
+                        document.getElementById('yourRank').textContent = '--';
+                        document.getElementById('yourPoints').textContent = '--';
+                    }
+                }
+            });
+
+            // Re-check your rank on auth state change
+            firebase.auth().onAuthStateChanged(user => {
+                // Triggered by auth.js global listener mostly, but local listener helps
+            });
+        });
+    </script>
+</body>
+
+</html>

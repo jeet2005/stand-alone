@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | StockQuest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/theme.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3v18h18" />
+                        <path d="M18 9l-5 5-4-4-3 3" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="logo-text">StockQuest</span>
+                    <span class="logo-subtitle">Fantasy Stock Market</span>
+                </div>
+            </div>
+
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3v18h18" />
+                        <path d="M18 9l-5 5-4-4-3 3" />
+                    </svg>
+                    Stocks
+                </a>
+                <a href="market.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l4 2" />
+                    </svg>
+                    Market
+                </a>
+                <a href="portfolio.html" class="nav-link active">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                        <path d="M8 21h8" />
+                        <path d="M12 17v4" />
+                    </svg>
+                    Portfolio
+                </a>
+                <a href="leaderboard.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                        <path d="M4 22h16" />
+                        <path d="M10 22V8a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v14" />
+                    </svg>
+                    Leaderboard
+                </a>
+            </div>
+
+            <div class="user-stats">
+                <button class="btn-icon" id="navThemeToggle" title="Toggle Theme"
+                    style="margin-right: 12px; border: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <div class="balance-display">
+                    <span class="balance-label">Balance</span>
+                    <span class="balance-value" id="userBalance">--</span>
+                </div>
+                <div class="user-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Summary Cards -->
+            <div class="grid grid-4 mb-4">
+                <div class="card">
+                    <div class="text-muted" style="font-size: 0.8rem; margin-bottom: 4px;">Available Balance</div>
+                    <div id="availableBalance"
+                        style="font-size: 1.5rem; font-weight: 700; font-family: var(--font-mono);">--</div>
+                </div>
+                <div class="card">
+                    <div class="text-muted" style="font-size: 0.8rem; margin-bottom: 4px;">Total Invested</div>
+                    <div id="totalInvested" style="font-size: 1.5rem; font-weight: 700; font-family: var(--font-mono);">
+                        --</div>
+                </div>
+                <div class="card">
+                    <div class="text-muted" style="font-size: 0.8rem; margin-bottom: 4px;">Total Returns</div>
+                    <div id="totalReturns" class="text-success"
+                        style="font-size: 1.5rem; font-weight: 700; font-family: var(--font-mono);">--</div>
+                </div>
+                <div class="card">
+                    <div class="text-muted" style="font-size: 0.8rem; margin-bottom: 4px;">Portfolios</div>
+                    <div id="portfolioCount" style="font-size: 1.5rem; font-weight: 700;">0</div>
+                </div>
+            </div>
+
+            <!-- Portfolios Section -->
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h2 class="page-title">Your Portfolios</h2>
+                    <p class="page-subtitle">Track your fantasy stock portfolios</p>
+                </div>
+                <a href="dashboard.html" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14" />
+                    </svg>
+                    New Portfolio
+                </a>
+            </div>
+
+            <div id="portfoliosList">
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" />
+                            <path d="M8 21h8" />
+                            <path d="M12 17v4" />
+                        </svg>
+                    </div>
+                    <p class="empty-state-title">No Portfolios Yet</p>
+                    <p class="empty-state-desc">Create your first portfolio to start competing</p>
+                    <a href="dashboard.html" class="btn btn-primary mt-4">Start Building</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="/js/firestore.js"></script>
+
+    <script>
+        // Utilities
+        function formatCurrency(amount) {
+            if (!amount || isNaN(amount)) return '--';
+            const num = parseFloat(amount);
+            if (num >= 10000000) return '₹' + (num / 10000000).toFixed(2) + ' Cr';
+            if (num >= 100000) return '₹' + (num / 100000).toFixed(2) + ' L';
+            return '₹' + num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // Global User State
+        let currentUser = null;
+
+        // Load data
+        async function loadPortfolios() {
+            if (!currentUser) return;
+
+            let balance = 1000000;
+            let portfolios = [];
+
+            try {
+                // Fetch User Balance
+                const userDoc = await Database.getUser(currentUser.uid);
+                if (userDoc) {
+                    balance = userDoc.balance !== undefined ? userDoc.balance : 1000000;
+                }
+
+                // Fetch Portfolios - Use Realtime Listener instead? 
+                // Using method for now.
+                portfolios = await Database.getUserPortfolios(currentUser.uid);
+
+                // OR use Database.onPortfoliosChange(currentUser.uid, (data) => { ... })
+                // But let's stick to fetch for simplicity unless realtime requested explicitly for this page.
+                // The prompt asked for "real-time leaderboard". Portfolios page doesn't explicitly need realtime but it's nice.
+
+            } catch (e) {
+                console.error("Error loading portfolios:", e);
+            }
+
+            // Update summary
+            document.getElementById('userBalance').textContent = formatCurrency(balance);
+            document.getElementById('availableBalance').textContent = formatCurrency(balance);
+
+            const totalInvested = portfolios.reduce((sum, p) => sum + (p.invested || 0), 0);
+            document.getElementById('totalInvested').textContent = formatCurrency(totalInvested);
+
+            // Mock returns for now or calculate if we had live prices here
+            const mockReturns = totalInvested * 0.05;
+            const returnsEl = document.getElementById('totalReturns');
+            returnsEl.textContent = formatCurrency(mockReturns);
+            returnsEl.className = mockReturns >= 0 ? 'text-success' : 'text-danger';
+
+            document.getElementById('portfolioCount').textContent = portfolios.length;
+
+            // Render portfolios
+            const container = document.getElementById('portfoliosList');
+
+            if (portfolios.length === 0) {
+                container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>
+              </svg>
+            </div>
+            <p class="empty-state-title">No Portfolios Yet</p>
+            <p class="empty-state-desc">Create your first portfolio to start competing</p>
+            <a href="/dashboard.html" class="btn btn-primary mt-4">Start Building</a>
+          </div>
+        `;
+                return;
+            }
+
+            container.innerHTML = portfolios.map((p, idx) => `
+        <div class="card mb-4" style="padding: 20px;">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h3 style="font-weight: 600;">Portfolio ${idx + 1}</h3>
+              <span class="text-muted" style="font-size: 0.8rem;">${p.createdAt && p.createdAt.toDate ? p.createdAt.toDate().toLocaleDateString() : 'Just now'}</span>
+            </div>
+            <div class="flex gap-2 items-center">
+              <span style="font-size: 1.25rem; font-weight: 700; font-family: var(--font-mono);">
+                ${p.points || 0} pts
+              </span>
+            </div>
+          </div>
+          
+          <div class="flex gap-2" style="flex-wrap: wrap;">
+            ${p.stocks.map(s => `
+              <div style="background: var(--bg-secondary); padding: 8px 12px; border-radius: var(--radius-md); display: flex; align-items: center; gap: 8px;">
+                ${s.symbol === p.captain ? '<span style="background: var(--warning); color: #000; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.7rem; font-weight: 700;">C</span>' : ''}
+                ${s.symbol === p.viceCaptain ? '<span style="background: var(--accent); color: #000; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.7rem; font-weight: 700;">VC</span>' : ''}
+                <span style="font-size: 0.85rem;">${s.name}</span>
+              </div>
+            `).join('')}
+          </div>
+          
+          <div class="flex justify-between items-center mt-4 pt-4" style="border-top: 1px solid var(--border-color);">
+            <span class="text-muted">Invested: ${formatCurrency(p.invested)}</span>
+            <span class="text-success">+0.00%</span>
+          </div>
+        </div>
+      `).join('');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auth listener
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    currentUser = user;
+                    loadPortfolios();
+                } else {
+                    // Redirect handled by auth.js usually, but here we can show empty
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

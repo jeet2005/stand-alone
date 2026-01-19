@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+backend/venv/
+backend/.env
+
+# Dependencies
+node_modules/
+
+# Sensitive Config
+frontend/js/firebase-config.js
+
+# OS Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

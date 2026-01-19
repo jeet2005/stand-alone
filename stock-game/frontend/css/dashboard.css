@@ -1,0 +1,524 @@
+/*
+ * Dashboard Page Styles
+ */
+
+/* Dashboard Header */
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+}
+
+.dashboard-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #22c55e, #4ade80);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dashboard-subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* Quick Stats */
+.quick-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.quick-stat-card {
+    background: var(--sq-bg-card);
+    border: 1px solid var(--sq-border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.2s;
+}
+
+.quick-stat-card:hover {
+    border-color: var(--sq-green-border);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.stat-icon.nse {
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.stat-icon.bse {
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.stat-icon.gold {
+    background: rgba(250, 204, 21, 0.15);
+    border: 1px solid rgba(250, 204, 21, 0.3);
+}
+
+.stat-icon.silver {
+    background: rgba(192, 192, 192, 0.15);
+    border: 1px solid rgba(192, 192, 192, 0.3);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-name {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.stat-value {
+    font-family: var(--font-mono);
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.stat-value.positive {
+    color: var(--sq-green);
+}
+
+.stat-value.negative {
+    color: #ef4444;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+/* Dashboard Section */
+.dashboard-section {
+    background: var(--sq-bg-card);
+    border: 1px solid var(--sq-border);
+    border-radius: 16px;
+    padding: 1.25rem;
+    min-height: 300px;
+}
+
+.dashboard-section .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--sq-border);
+}
+
+.dashboard-section .section-header h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+}
+
+.section-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-actions input {
+    padding: 0.375rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--sq-border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    width: 150px;
+}
+
+.section-actions input:focus {
+    outline: none;
+    border-color: var(--sq-green);
+}
+
+.btn-sm {
+    padding: 0.375rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--sq-border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-sm:hover {
+    border-color: var(--sq-green);
+    color: var(--sq-green);
+}
+
+/* Toggle Tabs */
+.toggle-tabs {
+    display: flex;
+    gap: 0.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.25rem;
+    border-radius: 6px;
+}
+
+.toggle-tab {
+    padding: 0.375rem 0.75rem;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.toggle-tab.active {
+    background: var(--sq-green);
+    color: #000;
+}
+
+/* Section Content */
+.section-content {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.loading-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+}
+
+.error-state {
+    text-align: center;
+    padding: 2rem;
+    color: #ef4444;
+}
+
+/* Stock Item (Price Shockers / Most Active) */
+.stock-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.stock-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.stock-item-icon {
+    font-size: 1.25rem;
+}
+
+.stock-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.stock-item-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stock-item-symbol {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.stock-item-stats {
+    text-align: right;
+}
+
+.stock-item-price {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.stock-item-change {
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+}
+
+.stock-item-change.positive {
+    color: var(--sq-green);
+}
+
+.stock-item-change.negative {
+    color: #ef4444;
+}
+
+/* News Item */
+.news-item {
+    padding: 0.875rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--sq-green);
+    background: rgba(255, 255, 255, 0.02);
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.news-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.news-item-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.375rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-item-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    gap: 1rem;
+}
+
+/* IPO Item */
+.ipo-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.875rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--sq-border);
+}
+
+.ipo-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.ipo-badge.upcoming {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+}
+
+.ipo-badge.open {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--sq-green);
+}
+
+.ipo-badge.closed {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+.ipo-info {
+    flex: 1;
+}
+
+.ipo-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.ipo-details {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.ipo-price {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+/* Commodity Item */
+.commodity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.commodity-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.commodity-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.commodity-info {
+    flex: 1;
+}
+
+.commodity-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.commodity-unit {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.commodity-stats {
+    text-align: right;
+}
+
+.commodity-price {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.commodity-change {
+    font-size: 0.8rem;
+}
+
+.commodity-change.positive {
+    color: var(--sq-green);
+}
+
+.commodity-change.negative {
+    color: #ef4444;
+}
+
+/* Mutual Fund Item */
+.mf-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.mf-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.mf-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--sq-green);
+    font-weight: 600;
+}
+
+.mf-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.mf-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mf-category {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.mf-stats {
+    text-align: right;
+}
+
+.mf-nav {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.mf-returns {
+    font-size: 0.8rem;
+}
+
+.mf-returns.positive {
+    color: var(--sq-green);
+}
+
+.mf-returns.negative {
+    color: #ef4444;
+}
+
+/* Empty State */
+.empty-section {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+}
+
+.empty-section-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .quick-stats {
+        grid-template-columns: 1fr;
+    }
+}

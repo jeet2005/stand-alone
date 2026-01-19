@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Detail | StockQuest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/theme.js"></script>
+    <style>
+        .stock-hero {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .stock-hero-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .stock-hero-name {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .stock-hero-symbol {
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+        }
+
+        .stock-hero-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+        }
+
+        .stock-hero-change {
+            font-size: 1.25rem;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 20px 16px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-family: var(--font-mono);
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .info-sections {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .info-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+        }
+
+        .info-section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-section-title svg {
+            width: 18px;
+            height: 18px;
+            color: var(--accent);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-weight: 500;
+            font-family: var(--font-mono);
+        }
+
+        .analyst-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+        }
+
+        .analyst-rating {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .rating-buy {
+            background: rgba(0, 208, 156, 0.2);
+            color: var(--success);
+        }
+
+        .rating-hold {
+            background: rgba(247, 185, 36, 0.2);
+            color: var(--warning);
+        }
+
+        .rating-sell {
+            background: rgba(235, 87, 87, 0.2);
+            color: var(--danger);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+        }
+
+        .back-button:hover {
+            color: var(--accent);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+
+        .action-btn {
+            padding: 16px 48px;
+            font-size: 1rem;
+        }
+
+        .company-profile {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .profile-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .profile-logo {
+            width: 64px;
+            height: 64px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .profile-info h2 {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+
+        .profile-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .profile-detail {
+            text-align: center;
+        }
+
+        .profile-detail-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .profile-detail-value {
+            font-weight: 600;
+        }
+
+        @media (max-width: 1024px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .info-sections {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .stock-hero-name {
+                font-size: 1.5rem;
+            }
+
+            .stock-hero-price {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3v18h18" />
+                        <path d="M18 9l-5 5-4-4-3 3" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="logo-text">StockQuest</span>
+                    <span class="logo-subtitle">Fantasy Stock Market</span>
+                </div>
+            </div>
+
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3v18h18" />
+                        <path d="M18 9l-5 5-4-4-3 3" />
+                    </svg>
+                    Stocks
+                </a>
+                <a href="market.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l4 2" />
+                    </svg>
+                    Market
+                </a>
+                <a href="portfolio.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                        <path d="M8 21h8" />
+                        <path d="M12 17v4" />
+                    </svg>
+                    Portfolio
+                </a>
+                <a href="leaderboard.html" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                        <path d="M4 22h16" />
+                        <path d="M10 22V8a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v14" />
+                    </svg>
+                    Leaderboard
+                </a>
+            </div>
+
+            <div class="user-stats">
+                <button class="btn-icon" id="navThemeToggle" title="Toggle Theme"
+                    style="margin-right: 12px; border: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <div class="balance-display">
+                    <span class="balance-label">Balance</span>
+                    <span class="balance-value" id="userBalance">--</span>
+                </div>
+                <div class="user-avatar" id="userAvatar">?</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <a href="dashboard.html" class="back-button">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Back to Stocks
+            </a>
+
+            <!-- Stock Hero -->
+            <div class="stock-hero" id="stockHero">
+                <div class="loading" style="padding: 40px;">
+                    <div class="spinner"></div>
+                    <span>Loading stock data...</span>
+                </div>
+            </div>
+
+            <!-- Company Profile -->
+            <div class="company-profile" id="companyProfile" style="display: none;"></div>
+
+            <!-- Info Sections -->
+            <div class="info-sections">
+                <!-- Price & Volume -->
+                <div class="info-section">
+                    <h3 class="info-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                        </svg>
+                        Price Details
+                    </h3>
+                    <div id="priceSection">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="info-section">
+                    <h3 class="info-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 21H3V3" />
+                            <path d="M21 9l-6 6-4-4-6 6" />
+                        </svg>
+                        Key Metrics
+                    </h3>
+                    <div id="metricsSection">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financials -->
+                <div class="info-section">
+                    <h3 class="info-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <path d="M9 9h6M9 13h6M9 17h4" />
+                        </svg>
+                        Financials
+                    </h3>
+                    <div id="financialsSection">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analyst Views -->
+                <div class="info-section">
+                    <h3 class="info-section-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        Analyst Recommendations
+                    </h3>
+                    <div id="analystSection">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-primary action-btn" id="addToTeamBtn" onclick="addToTeam()">
+                    Add to Team
+                </button>
+                <a href="/" class="btn btn-secondary action-btn">
+                    Browse More Stocks
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // State
+        let stockData = null;
+        const stockName = new URLSearchParams(window.location.search).get('name');
+
+        // Utilities
+        function formatCurrency(amount) {
+            if (!amount || isNaN(parseFloat(amount))) return '--';
+            const num = parseFloat(String(amount).replace(/[₹,]/g, ''));
+            if (num >= 10000000) return '₹' + (num / 10000000).toFixed(2) + ' Cr';
+            if (num >= 100000) return '₹' + (num / 100000).toFixed(2) + ' L';
+            return '₹' + num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function formatNumber(num) {
+            if (!num || isNaN(parseFloat(num))) return '--';
+            return parseFloat(String(num).replace(/,/g, '')).toLocaleString('en-IN');
+        }
+
+        function formatPercent(value) {
+            if (!value) return '0.00%';
+            const num = parseFloat(String(value).replace(/[%+]/g, ''));
+            if (isNaN(num)) return '0.00%';
+            const sign = num >= 0 ? '+' : '';
+            return `${sign}${num.toFixed(2)}%`;
+        }
+
+        function getChangeClass(value) {
+            const num = parseFloat(String(value).replace(/[%+]/g, ''));
+            return num >= 0 ? 'positive' : 'negative';
+        }
+
+        // Load stock data
+        async function loadStockData() {
+            if (!stockName) {
+                window.location.href = '/';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/stock?name=${encodeURIComponent(stockName)}`);
+                const result = await response.json();
+
+                console.log('Stock API Response:', result);
+
+                if (result.success && result.data) {
+                    stockData = result.data;
+                    renderStockHero();
+                    renderCompanyProfile();
+                    renderPriceDetails();
+                    renderKeyMetrics();
+                    renderFinancials();
+                    renderAnalystViews();
+                } else {
+                    showError('Stock not found');
+                }
+            } catch (error) {
+                console.error('Error loading stock:', error);
+                showError('Failed to load stock data');
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('stockHero').innerHTML = `
+        <div class="empty-state" style="padding: 60px 20px;">
+          <p class="empty-state-title">${message}</p>
+          <a href="/" class="btn btn-primary mt-4">Back to Stocks</a>
+        </div>
+      `;
+        }
+
+        function renderStockHero() {
+            const d = stockData;
+            const info = d.info || {};
+            const metadata = d.metadata || {};
+            const profile = d.priceProfile || {}; // likely where high/low are
+
+            const price = parseFloat(d.currentPrice || d.price || metadata.lastPrice || 0);
+            const change = parseFloat(d.change || d.percentChange || d.pChange || metadata.pChange || 0);
+            const changeClass = getChangeClass(change);
+
+            document.getElementById('stockHero').innerHTML = `
+        <div class="stock-hero-header">
+          <div>
+            <h1 class="stock-hero-name">${d.companyName || info.companyName || d.name || stockName}</h1>
+            <span class="stock-hero-symbol">${d.symbol || info.symbol || metadata.symbol || stockName.toUpperCase()}</span>
+          </div>
+          <button class="btn btn-primary" onclick="addToTeam()">Add to Team</button>
+        </div>
+        
+        <div class="flex items-center gap-4 flex-wrap">
+          <span class="stock-hero-price">${formatCurrency(price)}</span>
+          <span class="stock-hero-change stock-change ${changeClass}">
+            ${change >= 0 ? '↑' : '↓'} ${formatPercent(change)}
+          </span>
+        </div>
+        
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <div class="metric-label">52 Week High</div>
+            <div class="metric-value">${formatCurrency(d.yearHigh || info['52WeekHigh'] || profile.high52 || profile['52WeekHigh'] || '--')}</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-label">52 Week Low</div>
+            <div class="metric-value">${formatCurrency(d.yearLow || info['52WeekLow'] || profile.low52 || profile['52WeekLow'] || '--')}</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-label">Day High</div>
+            <div class="metric-value">${formatCurrency(d.dayHigh || profile.dayHigh || profile.high || '--')}</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-label">Day Low</div>
+            <div class="metric-value">${formatCurrency(d.dayLow || profile.dayLow || profile.low || '--')}</div>
+          </div>
+        </div>
+      `;
+
+            document.title = `${d.companyName || info.companyName || stockName} | StockQuest`;
+        }
+
+        function renderCompanyProfile() {
+            const d = stockData;
+            const info = d.info || {};
+            const metadata = d.metadata || {};
+
+            const sector = d.sector || info.sector || metadata.sector;
+            const industry = d.industry || info.industry || metadata.industry;
+
+            if (!sector && !industry) {
+                document.getElementById('companyProfile').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('companyProfile').style.display = 'block';
+            document.getElementById('companyProfile').innerHTML = `
+        <div class="profile-header">
+          <div class="profile-logo">${(d.companyName || info.companyName || stockName).charAt(0)}</div>
+          <div class="profile-info">
+            <h2>${d.companyName || info.companyName || stockName}</h2>
+            <p>${sector || industry || ''}</p>
+          </div>
+        </div>
+        <div class="profile-details">
+          <div class="profile-detail">
+            <div class="profile-detail-label">Sector</div>
+            <div class="profile-detail-value">${sector || '--'}</div>
+          </div>
+          <div class="profile-detail">
+            <div class="profile-detail-label">Industry</div>
+            <div class="profile-detail-value">${industry || '--'}</div>
+          </div>
+          <div class="profile-detail">
+            <div class="profile-detail-label">Exchange</div>
+            <div class="profile-detail-value">NSE / BSE</div>
+          </div>
+        </div>
+      `;
+        }
+
+        function renderPriceDetails() {
+            const d = stockData;
+            const info = d.info || {};
+            const profile = d.priceProfile || {};
+
+            // Try to find prices
+            const nsePrice = d.currentPrice?.NSE || d.price || info.lastPrice || profile.currentPrice;
+            const bsePrice = d.currentPrice?.BSE; // Might be missing
+            const volume = d.volume || d.tradedVolume || profile.volume || info.volume;
+            const openPrice = d.open || d.dayOpen || profile.open || profile.dayOpen;
+            const prevClose = d.previousClose || d.prevClose || profile.previousClose || profile.close;
+
+            document.getElementById('priceSection').innerHTML = `
+        <div class="info-row">
+          <span class="info-label">Current Price</span>
+          <span class="info-value">${formatCurrency(nsePrice)}</span>
+        </div>
+        ${bsePrice ? `<div class="info-row"><span class="info-label">BSE Price</span><span class="info-value">${formatCurrency(bsePrice)}</span></div>` : ''}
+        <div class="info-row">
+          <span class="info-label">Volume</span>
+          <span class="info-value">${formatNumber(volume)}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Open</span>
+          <span class="info-value">${formatCurrency(openPrice)}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Previous Close</span>
+          <span class="info-value">${formatCurrency(prevClose)}</span>
+        </div>
+      `;
+        }
+
+        function renderKeyMetrics() {
+            const d = stockData;
+            const info = d.info || {};
+            const metadata = d.metadata || {};
+
+            const marketCap = d.marketCap || info.marketCap || info.mCap || metadata.marketCap;
+            const pe = d.pe || d.peRatio || info.pe || info.peRatio || metadata.pe;
+            const pb = d.pb || d.pbRatio || info.pb || info.pbRatio || metadata.pb;
+            const eps = d.eps || info.eps || metadata.eps;
+            const divYield = d.dividendYield || info.dividendYield || metadata.dividendYield;
+
+            document.getElementById('metricsSection').innerHTML = `
+        <div class="info-row">
+          <span class="info-label">Market Cap</span>
+          <span class="info-value">${marketCap ? formatCurrency(marketCap) : '--'}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">P/E Ratio</span>
+          <span class="info-value">${pe || '--'}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">P/B Ratio</span>
+          <span class="info-value">${pb || '--'}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">EPS</span>
+          <span class="info-value">${eps || '--'}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Dividend Yield</span>
+          <span class="info-value">${divYield ? formatPercent(divYield) : '--'}</span>
+        </div>
+      `;
+        }
+
+        function renderFinancials() {
+            const financials = stockData.financials || [];
+
+            if (financials.length === 0) {
+                document.getElementById('financialsSection').innerHTML = `
+          <p style="color: var(--text-muted); text-align: center; padding: 20px;">No financial data available</p>
+        `;
+                return;
+            }
+
+            let html = '';
+            financials.slice(0, 8).forEach(item => {
+                const key = Object.keys(item)[0];
+                const value = item[key];
+                if (key && value !== undefined) {
+                    html += `
+            <div class="info-row">
+              <span class="info-label">${key}</span>
+              <span class="info-value">${typeof value === 'number' ? formatNumber(value) : value}</span>
+            </div>
+          `;
+                }
+            });
+
+            document.getElementById('financialsSection').innerHTML = html || '<p style="color: var(--text-muted); text-align: center; padding: 20px;">No data</p>';
+        }
+
+        function renderAnalystViews() {
+            const analysts = stockData.analystView || [];
+
+            if (analysts.length === 0) {
+                document.getElementById('analystSection').innerHTML = `
+          <p style="color: var(--text-muted); text-align: center; padding: 20px;">No analyst data available</p>
+        `;
+                return;
+            }
+
+            let html = '';
+            analysts.forEach(item => {
+                const key = Object.keys(item)[0];
+                const value = item[key];
+                if (key && value !== undefined) {
+                    let ratingClass = 'rating-hold';
+                    if (key.toLowerCase().includes('buy') || key.toLowerCase().includes('strong')) {
+                        ratingClass = 'rating-buy';
+                    } else if (key.toLowerCase().includes('sell') || key.toLowerCase().includes('reduce')) {
+                        ratingClass = 'rating-sell';
+                    }
+
+                    html += `
+            <div class="analyst-card">
+              <div class="analyst-rating ${ratingClass}">${value}</div>
+              <div>
+                <div style="font-weight: 500;">${key}</div>
+                <div style="color: var(--text-muted); font-size: 0.8rem;">Analyst recommendation</div>
+              </div>
+            </div>
+          `;
+                }
+            });
+
+            document.getElementById('analystSection').innerHTML = html || '<p style="color: var(--text-muted); text-align: center; padding: 20px;">No data</p>';
+        }
+
+        // Add to team
+        function addToTeam() {
+            if (!stockData) return;
+
+            const team = JSON.parse(localStorage.getItem('stockquest_team') || '[]');
+
+            const stock = {
+                symbol: stockData.symbol || stockName.toUpperCase().substring(0, 6),
+                name: stockData.companyName || stockData.company_name || stockName,
+                price: parseFloat(stockData.currentPrice?.NSE || stockData.currentPrice?.BSE || stockData.price || 0),
+                change: parseFloat(stockData.percentChange || stockData.pChange || 0)
+            };
+
+            if (team.some(s => s.symbol === stock.symbol)) {
+                showToast('Already in team', 'error');
+                return;
+            }
+
+            if (team.length >= 11) {
+                showToast('Team is full (max 11)', 'error');
+                return;
+            }
+
+            team.push(stock);
+            localStorage.setItem('stockquest_team', JSON.stringify(team));
+            showToast(`${stock.name} added to team!`, 'success');
+        }
+
+        function showToast(message, type) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const balance = localStorage.getItem('stockquest_balance') || 1000000;
+            document.getElementById('userBalance').textContent = formatCurrency(balance);
+            loadStockData();
+        });
+    </script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>
