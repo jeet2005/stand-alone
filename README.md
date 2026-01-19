@@ -9,7 +9,7 @@
 
 StockQuest is a comprehensive fantasy trading platform that allows users to experience the thrill of the Indian Stock Market with ₹10,00,000 in virtual currency. It bridges the gap between learning and trading by providing real-time data, fantasy contests, and a risk-free environment to test strategies.
 
-## ✨ Key Features
+##  Key Features
 
 *   **Real-Time Market Data**: Live tracking of NSE/BSE stocks, IPOs, Commodities, and Mutual Funds.
 *   **Fantasy Portfolio**: Build a team of 11 stocks, assign Captain/Vice-Captain, and compete for points.
@@ -18,14 +18,14 @@ StockQuest is a comprehensive fantasy trading platform that allows users to expe
 *   **Secure Authentication**: Seamless login via Google or Email/Password using Firebase Auth.
 *   **Dark Mode UI**: A premium, responsive interface designed for extended trading sessions.
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 *   **Backend**: Python 3.x, Flask, RESTful API structure.
 *   **Frontend**: HTML5, CSS3, Vanilla JavaScript (ES6+).
 *   **Database & Auth**: Google Firebase (Firestore & Authentication).
 *   **Data Source**: Custom Python scrapers/APIs for Indian market data.
 
-## 🚀 Getting Started
+##  Getting Started
 
 To get a local copy up and running, please follow our detailed **[Quickstart Guide](QUICKSTART.md)**.
 
@@ -35,7 +35,7 @@ To get a local copy up and running, please follow our detailed **[Quickstart Gui
 *   Git
 *   A Firebase Project (Free tier is sufficient)
 
-## 📂 Project Structure
+##  Project Structure
 
 ```bash
 stock-game/
@@ -54,7 +54,7 @@ stock-game/
 └── README.md
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -64,7 +64,7 @@ Contributions are what make the open source community such an amazing place to l
 4.  Push to the Branch (`git push origin feature/AmazingFeature`)
 5.  Open a Pull Request
 
-## 📄 License
+##  License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
