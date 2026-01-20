@@ -17,7 +17,7 @@ You will also need a **Google Account** to create a Firebase project.
 ## 2. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/stock-game.git
+git clone https://github.com/jeet2005/stock-game.git
 cd stock-game
 ```
 
