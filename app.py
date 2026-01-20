@@ -15,7 +15,7 @@ CORS(app)
 
 # Configuration
 API_BASE_URL = "https://stock.indianapi.in"
-API_KEY = os.environ.get("INDIAN_STOCK_API_KEY", "sk-live-X3qZHnpBBzuROroa79agxcI90jRjafq4FJ74P9n2")
+API_KEY = os.environ.get("INDIAN_STOCK_API_KEY", "YOUR_INDIAN_STOCK_API_KEY")
 
 # Simple in-memory cache
 cache = {}
